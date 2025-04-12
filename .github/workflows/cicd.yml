@@ -1,0 +1,43 @@
+name: build-and-deploy
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Give execute permission to gradlew
+        run: chmod +x gradlew
+        working-directory: step07_CICD
+
+      - name: Build JAR with Gradle
+        run: ./gradlew build
+        working-directory: step07_CICD
+
+      - name: Build Docker image
+        run: docker build -t myapp .
+        working-directory: step07_CICD
+
+      - name: Stop existing container if exists
+        run: docker stop myapp || true
+
+      - name: Remove existing container if exists
+        run: docker rm myapp || true
+
+      - name: Run Docker container
+        run: docker run -d -p 8080:8080 --name myapp myapp
+
