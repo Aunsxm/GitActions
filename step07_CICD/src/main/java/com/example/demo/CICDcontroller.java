@@ -19,7 +19,7 @@ public class CICDcontroller{
 			System.out.println("data 값" + i);
 		}
 		
-		return "요청 응답 성공";
+		return "CI/CD SUCCESSFUL";
 		
 	}
 }
