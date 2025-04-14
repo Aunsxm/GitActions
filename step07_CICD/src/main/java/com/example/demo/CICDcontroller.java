@@ -19,7 +19,7 @@ public class CICDcontroller{
 			System.out.println("data 값" + i);
 		}
 		
-		return "미션성공이올시다!";
+		return "gitactions success!!";
 		
 	}
 }
